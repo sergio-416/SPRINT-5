@@ -1,6 +1,7 @@
 import { provideZonelessChangeDetection } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { App } from './app';
+import { Gallery } from './components/gallery/gallery';
 
 describe('App', () => {
   beforeEach(async () => {
@@ -16,10 +17,26 @@ describe('App', () => {
     expect(app).toBeTruthy();
   });
 
-  it('should render title', async () => {
+  it('should render the Gallery component', async () => {
     const fixture = TestBed.createComponent(App);
     await fixture.whenStable();
+    fixture.detectChanges();
+
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, SPRINT-5');
+    const galleryElement = compiled.querySelector('app-gallery');
+
+    expect(galleryElement).toBeTruthy();
+  });
+
+  it('should have the gallery title visible', async () => {
+    const fixture = TestBed.createComponent(App);
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    const compiled = fixture.nativeElement as HTMLElement;
+    const title = compiled.querySelector('h1');
+
+    expect(title).toBeTruthy();
+    expect(title?.textContent).toContain('Image Gallery');
   });
 });
