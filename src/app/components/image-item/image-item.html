@@ -1,1 +1,7 @@
-<p>image-item works!</p>
+<div data-testid="image-container" [class.featured-image]="isFeatured()">
+  <img
+    [src]="image().download_url"
+    [alt]="'Photo by ' + image().author"
+    class="w-full h-auto rounded-lg shadow-md"
+  />
+</div>
