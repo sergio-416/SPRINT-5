@@ -2,7 +2,6 @@ import { provideZonelessChangeDetection } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { Gallery } from './gallery';
-import { ImageItem } from '../image-item/image-item';
 
 describe('Gallery', () => {
   let component: Gallery;
@@ -55,34 +54,39 @@ describe('Gallery', () => {
   });
 
   describe('Featured image logic', () => {
-    it('should mark the first image as featured', () => {
+    it('should apply featured-image class to the first image container', () => {
       fixture.detectChanges();
-      const imageItems = compiled.querySelectorAll('app-image-item');
-      const firstImageItem = imageItems[0];
 
-      expect(firstImageItem.hasAttribute('ng-reflect-is-featured')).toBe(true);
+      const firstImageItem = compiled.querySelector('app-image-item');
+      const firstContainer = firstImageItem?.querySelector('[data-testid="image-container"]');
+
+      expect(firstContainer?.classList.contains('featured-image')).toBe(true);
     });
 
-    it('should not mark other images as featured', () => {
+    it('should not apply featured-image class to other images', () => {
       fixture.detectChanges();
+
       const imageItems = compiled.querySelectorAll('app-image-item');
 
       for (let i = 1; i < imageItems.length; i++) {
-        const imageItem = imageItems[i];
-        const isFeaturedAttr = imageItem.getAttribute('ng-reflect-is-featured');
-        expect(isFeaturedAttr === null || isFeaturedAttr === 'false').toBe(true);
+        const container = imageItems[i].querySelector('[data-testid="image-container"]');
+        expect(container?.classList.contains('featured-image')).toBe(false);
       }
     });
   });
 
   describe('Component integration', () => {
-    it('should pass image data to each ImageItem component', () => {
+    it('should render all images correctly', () => {
       fixture.detectChanges();
-      const imageItems = compiled.querySelectorAll('app-image-item');
-      const firstImage = component.images()[0];
-      const firstImageItem = imageItems[0];
 
-      expect(firstImageItem.getAttribute('ng-reflect-image')).toContain(firstImage.id.toString());
+      const images = compiled.querySelectorAll('img');
+      expect(images.length).toBe(8);
+
+      images.forEach((img, index) => {
+        const expectedImage = component.images()[index];
+        expect(img.getAttribute('src')).toBe(expectedImage.download_url);
+        expect(img.getAttribute('alt')).toContain(expectedImage.author);
+      });
     });
   });
 });

@@ -27,10 +27,10 @@ describe('ImageItem', () => {
     fixture = TestBed.createComponent(ImageItem);
     component = fixture.componentInstance;
     compiled = fixture.nativeElement;
-    await fixture.whenStable();
   });
 
   it('should create', () => {
+    fixture.componentRef.setInput('image', mockImage);
     expect(component).toBeTruthy();
   });
 
@@ -41,10 +41,12 @@ describe('ImageItem', () => {
     });
 
     it('should receive isFeatured input signal with default false', () => {
+      fixture.componentRef.setInput('image', mockImage);
       expect(component.isFeatured()).toBe(false);
     });
 
     it('should receive isFeatured input signal when set to true', () => {
+      fixture.componentRef.setInput('image', mockImage);
       fixture.componentRef.setInput('isFeatured', true);
       expect(component.isFeatured()).toBe(true);
     });
