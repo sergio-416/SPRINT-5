@@ -1,10 +1,11 @@
 import { Component, ChangeDetectionStrategy, signal } from '@angular/core';
 import { Image } from '../../interfaces/image';
+import { ImageItem } from '../image-item/image-item';
 
 @Component({
   selector: 'app-gallery',
   standalone: true,
-  imports: [],
+  imports: [ImageItem],
   templateUrl: './gallery.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
