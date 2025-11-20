@@ -1,1 +1,15 @@
-<p>gallery works!</p>
+<div class="container mx-auto px-4 py-8">
+  <h1 class="text-3xl font-bold mb-8 text-center">Image Gallery</h1>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+    @for (image of images(); track image.id) {
+    <div>
+      <img
+        [src]="image.download_url"
+        [alt]="'Photo by ' + image.author"
+        class="w-full h-auto rounded-lg shadow-md"
+      />
+    </div>
+    }
+  </div>
+</div>
