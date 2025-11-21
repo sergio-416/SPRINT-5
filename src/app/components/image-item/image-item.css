@@ -4,6 +4,7 @@
 
 :host(.featured) {
   grid-column: span 2;
+  grid-row: span 2;
 }
 
 .featured-image {
@@ -31,5 +32,6 @@
 @media (max-width: 767px) {
   :host(.featured) {
     grid-column: span 1;
+    grid-row: span 1;
   }
 }
