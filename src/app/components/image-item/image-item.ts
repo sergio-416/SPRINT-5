@@ -8,9 +8,11 @@ import { Image } from '../../interfaces/image';
   templateUrl: './image-item.html',
   styleUrl: './image-item.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    '[class.featured]': 'isFeatured()',
+  },
 })
 export class ImageItem {
   image = input.required<Image>();
-
   isFeatured = input<boolean>(false);
 }
