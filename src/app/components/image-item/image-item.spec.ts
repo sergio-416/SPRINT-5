@@ -52,6 +52,26 @@ describe('ImageItem', () => {
     });
   });
 
+  describe('Host element styling', () => {
+    it('should NOT apply featured class to host when isFeatured is false', () => {
+      fixture.componentRef.setInput('image', mockImage);
+      fixture.componentRef.setInput('isFeatured', false);
+      fixture.detectChanges();
+
+      const hostElement = fixture.nativeElement as HTMLElement;
+      expect(hostElement.classList.contains('featured')).toBe(false);
+    });
+
+    it('should apply featured class to host when isFeatured is true', () => {
+      fixture.componentRef.setInput('image', mockImage);
+      fixture.componentRef.setInput('isFeatured', true);
+      fixture.detectChanges();
+
+      const hostElement = fixture.nativeElement as HTMLElement;
+      expect(hostElement.classList.contains('featured')).toBe(true);
+    });
+  });
+
   describe('Image rendering', () => {
     beforeEach(() => {
       fixture.componentRef.setInput('image', mockImage);
@@ -87,7 +107,7 @@ describe('ImageItem', () => {
       fixture.componentRef.setInput('image', mockImage);
     });
 
-    it('should NOT apply featured class when isFeatured is false', () => {
+    it('should NOT apply featured-image class to container when isFeatured is false', () => {
       fixture.componentRef.setInput('isFeatured', false);
       fixture.detectChanges();
 
@@ -95,7 +115,7 @@ describe('ImageItem', () => {
       expect(container?.classList.contains('featured-image')).toBe(false);
     });
 
-    it('should apply featured class when isFeatured is true', () => {
+    it('should apply featured-image class to container when isFeatured is true', () => {
       fixture.componentRef.setInput('isFeatured', true);
       fixture.detectChanges();
 
