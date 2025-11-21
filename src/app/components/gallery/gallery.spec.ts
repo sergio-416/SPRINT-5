@@ -42,18 +42,57 @@ describe('Gallery', () => {
     expect(title?.textContent).toContain('Image Gallery');
   });
 
-  it('should apply responsive grid classes', () => {
-    fixture.detectChanges();
-    const gridContainer = compiled.querySelector('.grid');
+  describe('Container layout', () => {
+    it('should have centered container with max width', () => {
+      fixture.detectChanges();
+      const container = compiled.querySelector('.container');
 
-    expect(gridContainer).toBeTruthy();
-    expect(gridContainer?.classList.contains('grid-cols-1')).toBe(true);
-    expect(gridContainer?.classList.contains('md:grid-cols-2')).toBe(true);
-    expect(gridContainer?.classList.contains('lg:grid-cols-3')).toBe(true);
-    expect(gridContainer?.classList.contains('xl:grid-cols-4')).toBe(true);
+      expect(container).toBeTruthy();
+      expect(container?.classList.contains('mx-auto')).toBe(true);
+      expect(container?.classList.contains('max-w-7xl')).toBe(true);
+    });
+
+    it('should have consistent padding', () => {
+      fixture.detectChanges();
+      const container = compiled.querySelector('.container');
+
+      expect(container?.classList.contains('px-4')).toBe(true);
+      expect(container?.classList.contains('py-8')).toBe(true);
+    });
   });
 
-  describe('Featured image logic', () => {
+  describe('Responsive grid layout', () => {
+    it('should apply mobile grid classes (2 columns)', () => {
+      fixture.detectChanges();
+      const gridContainer = compiled.querySelector('.grid');
+
+      expect(gridContainer).toBeTruthy();
+      expect(gridContainer?.classList.contains('grid-cols-2')).toBe(true);
+    });
+
+    it('should apply tablet grid classes (4 columns)', () => {
+      fixture.detectChanges();
+      const gridContainer = compiled.querySelector('.grid');
+
+      expect(gridContainer?.classList.contains('md:grid-cols-4')).toBe(true);
+    });
+
+    it('should apply desktop grid classes (5 columns)', () => {
+      fixture.detectChanges();
+      const gridContainer = compiled.querySelector('.grid');
+
+      expect(gridContainer?.classList.contains('lg:grid-cols-5')).toBe(true);
+    });
+
+    it('should have consistent gap between items', () => {
+      fixture.detectChanges();
+      const gridContainer = compiled.querySelector('.grid');
+
+      expect(gridContainer?.classList.contains('gap-6')).toBe(true);
+    });
+  });
+
+  describe('Featured image layout', () => {
     it('should apply featured-image class to the first image container', () => {
       fixture.detectChanges();
 
