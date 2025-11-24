@@ -123,4 +123,38 @@ describe('ImageItem', () => {
       expect(container?.classList.contains('featured-image')).toBe(true);
     });
   });
+
+  describe('Delete button', () => {
+    beforeEach(() => {
+      fixture.componentRef.setInput('image', mockImage);
+      fixture.detectChanges();
+    });
+
+    it('should render a delete button', () => {
+      const deleteButton = compiled.querySelector('[data-testid="delete-button"]');
+      expect(deleteButton).toBeTruthy();
+    });
+
+    it('should emit delete event when delete button is clicked', () => {
+      let emittedImageId: number | undefined;
+
+      component.deleteImage.subscribe((id: number) => {
+        emittedImageId = id;
+      });
+
+      const deleteButton = compiled.querySelector(
+        '[data-testid="delete-button"]'
+      ) as HTMLButtonElement;
+      deleteButton.click();
+
+      expect(emittedImageId).toBe(mockImage.id);
+    });
+
+    it('should have accessible label on delete button', () => {
+      const deleteButton = compiled.querySelector('[data-testid="delete-button"]');
+      const ariaLabel = deleteButton?.getAttribute('aria-label');
+
+      expect(ariaLabel).toContain('Delete');
+    });
+  });
 });

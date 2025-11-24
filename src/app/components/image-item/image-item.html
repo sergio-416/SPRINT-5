@@ -1,7 +1,17 @@
-<div data-testid="image-container" [class.featured-image]="isFeatured()">
+<div [class.featured-image]="isFeatured()" data-testid="image-container" class="relative group">
   <img
     [src]="image().download_url"
     [alt]="'Photo by ' + image().author"
     class="w-full h-auto rounded-lg shadow-md"
   />
+
+  <button
+    (click)="handleDelete($event)"
+    data-testid="delete-button"
+    aria-label="Delete image by {{ image().author }}"
+    type="button"
+    class="absolute top-2 right-2 bg-red-600 hover:bg-red-700 text-white p-2 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+  >
+    <i class="pi pi-trash text-sm"></i>
+  </button>
 </div>
