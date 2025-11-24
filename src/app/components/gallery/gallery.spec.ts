@@ -128,4 +128,70 @@ describe('Gallery', () => {
       });
     });
   });
+
+  describe('Image deletion', () => {
+    it('should have handleDelete method', () => {
+      expect(component.handleDelete).toBeDefined();
+      expect(typeof component.handleDelete).toBe('function');
+    });
+
+    it('should show confirmation dialog when deleting an image', () => {
+      const confirmSpy = vi.spyOn(window, 'confirm').mockReturnValue(true);
+      const imageId = component.images()[0].id;
+
+      component.handleDelete(imageId);
+
+      expect(confirmSpy).toHaveBeenCalledWith(expect.stringContaining('delete this image'));
+      confirmSpy.mockRestore();
+    });
+
+    it('should remove image from array when user confirms deletion', () => {
+      vi.spyOn(window, 'confirm').mockReturnValue(true);
+      const initialLength = component.images().length;
+      const imageToDelete = component.images()[2];
+
+      component.handleDelete(imageToDelete.id);
+
+      expect(component.images().length).toBe(initialLength - 1);
+      expect(component.images().find((img) => img.id === imageToDelete.id)).toBeUndefined();
+    });
+
+    it('should NOT remove image when user cancels deletion', () => {
+      vi.spyOn(window, 'confirm').mockReturnValue(false);
+      const initialLength = component.images().length;
+      const imageToDelete = component.images()[2];
+
+      component.handleDelete(imageToDelete.id);
+
+      expect(component.images().length).toBe(initialLength);
+      expect(component.images().find((img) => img.id === imageToDelete.id)).toBeDefined();
+    });
+
+    it('should update state immutably when deleting', () => {
+      vi.spyOn(window, 'confirm').mockReturnValue(true);
+      const originalArray = component.images();
+      const imageToDelete = component.images()[2];
+
+      component.handleDelete(imageToDelete.id);
+
+      expect(component.images()).not.toBe(originalArray);
+    });
+
+    it('should make second image featured when first image is deleted', () => {
+      fixture.detectChanges();
+      vi.spyOn(window, 'confirm').mockReturnValue(true);
+
+      const originalSecondImageId = component.images()[1].id;
+      const firstImageId = component.images()[0].id;
+
+      component.handleDelete(firstImageId);
+      fixture.detectChanges();
+
+      expect(component.images()[0].id).toBe(originalSecondImageId);
+
+      const firstImageItem = compiled.querySelector('app-image-item');
+      const firstContainer = firstImageItem?.querySelector('[data-testid="image-container"]');
+      expect(firstContainer?.classList.contains('featured-image')).toBe(true);
+    });
+  });
 });
